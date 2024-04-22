@@ -46,5 +46,7 @@ vim.opt.encoding = "utf-8"
 vim.opt.termencoding = "utf-8"
 --vim.opt.ffs = "unix,dos,mac"
 --vim.opt.binary = true
+vim.opt.tabstop = 2
 vim.opt.expandtab = true
-vim.opt.shiftwidth = 4
+vim.opt.shiftwidth = 2
+
