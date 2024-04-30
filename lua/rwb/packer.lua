@@ -3,13 +3,13 @@
 vim.cmd [[packadd packer.nvim]]
 
 return require('packer').startup(function(use)
-	-- Packer can manage itself
-	use 'wbthomason/packer.nvim'
+  -- Packer can manage itself
+  use 'wbthomason/packer.nvim'
 
-	use {
-		'nvim-telescope/telescope.nvim', tag = '0.1.5',
-		requires = { {'nvim-lua/plenary.nvim'} }
-	}
+  use {
+    'nvim-telescope/telescope.nvim', tag = '0.1.5',
+    requires = { {'nvim-lua/plenary.nvim'} }
+  }
 
   use {
       'numToStr/Comment.nvim',
@@ -46,12 +46,13 @@ return require('packer').startup(function(use)
     }
   }
 
-	use {
-	  'nvim-lualine/lualine.nvim',
-	  requires = { 'nvim-tree/nvim-web-devicons', opt = true }
-	}
+  use {
+    'nvim-lualine/lualine.nvim',
+    requires = { 'nvim-tree/nvim-web-devicons', opt = true }
+  }
 
-	use 'preservim/nerdcommenter'
+  use 'preservim/nerdcommenter'
 
-        use 'letorbi/vim-colors-modern-borland'
+  use 'letorbi/vim-colors-modern-borland'
+
 end)

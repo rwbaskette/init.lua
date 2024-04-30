@@ -1,5 +1,8 @@
-require("rwb.telescope")
 require("rwb.packer")
+
+--[[
+
+require("rwb.telescope")
 require("rwb.lualine")
 require("rwb.opt")
 require("rwb.remap")
@@ -16,3 +19,6 @@ vim.g.BorlandStyle = "classic"
 vim.g.BorlandParen = "1"
 vim.cmd("colorscheme borland")
 --vim.cmd("colorscheme zellner")
+
+]]--
+
