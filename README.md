@@ -6,8 +6,10 @@
 1. Clone this repo
 
 2. Manually fetch Packer:
-```git clone --depth 1 https://github.com/wbthomason/packer.nvim \ 
-~/.local/share/nvim/site/pack/packer/start/packer.nvim~```
+```
+git clone --depth 1 https://github.com/wbthomason/packer.nvim \ 
+  ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+```
 
 3. Start nvim and run `:PackerSync` to update packages
 
