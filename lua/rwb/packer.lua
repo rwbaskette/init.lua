@@ -43,6 +43,7 @@ return require('packer').startup(function(use)
        {'hrsh7th/cmp-nvim-lua'},
        {'L3MON4D3/LuaSnip'},
        {'rafamadriz/friendly-snippets'},
+       {'chriskempson/base16-vim'},
     }
   }
 

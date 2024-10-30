@@ -1,7 +1,5 @@
 require("rwb.packer")
 
---[[
-
 require("rwb.telescope")
 require("rwb.lualine")
 require("rwb.opt")
@@ -17,8 +15,11 @@ vim.cmd("syntax off")
 -- modern or classic
 vim.g.BorlandStyle = "classic"
 vim.g.BorlandParen = "1"
-vim.cmd("colorscheme borland")
---vim.cmd("colorscheme zellner")
+-- vim.cmd("colorscheme borland")
+-- vim.cmd("colorscheme zellner")
 
-]]--
-
+b16t = os.getenv("BASE16_THEME")
+if b16t ~= "" then
+  vim.cmd("let base16colorspace=256")
+  vim.cmd("colorscheme base16-" .. b16t)
+end
