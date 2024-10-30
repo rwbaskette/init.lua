@@ -23,3 +23,5 @@ vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 --- rwb copium
 vim.keymap.set("n", "<C-p>", builtin.buffers )
 vim.keymap.set("n", "<C-o>", builtin.find_files)
+
+vim.keymap.set("v", "<F5>", ":'<,'>w !q<CR>")
