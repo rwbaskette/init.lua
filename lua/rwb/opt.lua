@@ -43,10 +43,8 @@ vim.opt.title = true
 vim.opt.modeline = true  	   		-- last lines in document sets vim mode
 vim.opt.modelines = 12    			-- number lines checked for modelines
 vim.opt.encoding = "utf-8"
---vim.opt.termencoding = "utf-8"
 --vim.opt.ffs = "unix,dos,mac"
 --vim.opt.binary = true
 vim.opt.tabstop = 2
 vim.opt.expandtab = true
 vim.opt.shiftwidth = 2
-

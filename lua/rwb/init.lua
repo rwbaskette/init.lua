@@ -1,4 +1,7 @@
+require("rwb.opt")
 require("rwb.remap")
+
+
 
 vim.g.netrw_browse_split = 0
 vim.g.netrw_banner = 0
