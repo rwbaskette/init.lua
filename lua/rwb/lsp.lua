@@ -2,13 +2,15 @@
 -- LSP setup
 ---
 
--- DON'T FORGET TO INTSALL LANGUAGE SERVERS
--- MasonInstall 
+-- DON'T FORGET TO INSTALL LANGUAGE SERVERS
+-- MasonInstall
 --    typescript-language-server
 --    eslint_d
---    gofumpt
+--    goimports
 --    gopls
 --    lua-language-server
+--    gotests
+--    delve
 
 
 -- Reserve a space in the gutter
@@ -23,6 +25,55 @@ lspconfig_defaults.capabilities = vim.tbl_deep_extend(
   lspconfig_defaults.capabilities,
   require('cmp_nvim_lsp').default_capabilities()
 )
+
+-- Go specific setup
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "go",
+  callback = function()
+    vim.opt_local.expandtab = true
+    vim.opt_local.tabstop = 4
+    vim.opt_local.shiftwidth = 4
+
+    -- Go-specific keybindings
+    vim.keymap.set('n', '<leader>gr', '<cmd>GoRun<CR>', { buffer = true, desc = "Run Go file" })
+    vim.keymap.set('n', '<leader>gb', '<cmd>GoBuild<CR>', { buffer = true, desc = "Build Go package" })
+    vim.keymap.set('n', '<leader>gt', '<cmd>GoTest<CR>', { buffer = true, desc = "Run Go tests" })
+    vim.keymap.set('n', '<leader>gT', '<cmd>GoTestFunc<CR>', { buffer = true, desc = "Run Go test function" })
+    vim.keymap.set('n', '<leader>gc', '<cmd>GoCoverage<CR>', { buffer = true, desc = "Toggle test coverage" })
+    vim.keymap.set('n', '<leader>gd', '<cmd>GoDoc<CR>', { buffer = true, desc = "Show Go documentation" })
+    vim.keymap.set('n', '<leader>gf', '<cmd>GoFmt<CR>', { buffer = true, desc = "Format Go code" })
+    vim.keymap.set('n', '<leader>gi', '<cmd>GoImports<CR>', { buffer = true, desc = "Organize Go imports" })
+    vim.keymap.set('n', '<leader>gm', '<cmd>GoModTidy<CR>', { buffer = true, desc = "Tidy go.mod" })
+    vim.keymap.set('n', '<leader>ge', '<cmd>GoIfErr<CR>', { buffer = true, desc = "Add error check" })
+    vim.keymap.set('n', '<leader>gg', '<cmd>GoGenerate<CR>', { buffer = true, desc = "Run go generate" })
+    vim.keymap.set('n', '<leader>gp', '<cmd>GoAlt<CR>', { buffer = true, desc = "Go to alternate file" })
+    vim.keymap.set('n', '<leader>gs', '<cmd>GoSplit<CR>', { buffer = true, desc = "Split window with alternate" })
+    vim.keymap.set('n', '<leader>gv', '<cmd>GoVsplit<CR>', { buffer = true, desc = "Vsplit window with alternate" })
+
+    -- DAP keybindings for Go
+    vim.keymap.set('n', '<leader>dd', '<cmd>lua require("dap").continue()<CR>', { buffer = true, desc = "Start debugger" })
+    vim.keymap.set('n', '<leader>dc', '<cmd>lua require("dap").continue()<CR>', { buffer = true, desc = "Continue" })
+    vim.keymap.set('n', '<leader>ds', '<cmd>lua require("dap").step_over()<CR>', { buffer = true, desc = "Step over" })
+    vim.keymap.set('n', '<leader>di', '<cmd>lua require("dap").step_into()<CR>', { buffer = true, desc = "Step into" })
+    vim.keymap.set('n', '<leader>do', '<cmd>lua require("dap").step_out()<CR>', { buffer = true, desc = "Step out" })
+    vim.keymap.set('n', '<leader>db', '<cmd>lua require("dap").toggle_breakpoint()<CR>', { buffer = true, desc = "Toggle breakpoint" })
+    vim.keymap.set('n', '<leader>dr', '<cmd>lua require("dap").repl.toggle()<CR>', { buffer = true, desc = "Toggle REPL" })
+    vim.keymap.set('n', '<leader>dq', '<cmd>lua require("dap").close()<CR>', { buffer = true, desc = "Close debugger" })
+  end
+})
+
+-- Go test results quickfix
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "go",
+  callback = function()
+    vim.keymap.set('n', '<leader>tt', function()
+      local ok, result = pcall(vim.cmd, "GoTest -v")
+      if ok then
+        vim.cmd("copen")
+      end
+    end, { buffer = true, desc = "Run tests and show results" })
+  end
+})
 
 -- This is where you enable features that only work
 -- if there is a language server active in the file
@@ -53,7 +104,53 @@ require('mason-lspconfig').setup({
     function(server_name)
       local lsp_opt = {}
       if server_name == "gopls" then
-        lsp_opt = { settings = { gopls = { gofumpt = true } } }
+        lsp_opt = {
+          settings = {
+            gopls = {
+              gofumpt = true,
+              completeUnimported = true,
+              usePlaceholders = true,
+              analyses = {
+                unusedparams = true,
+                unusedvariable = true,
+                unreachable = true,
+              },
+              staticcheck = true,
+              codelenses = {
+                generate = true,
+                gc_details = true,
+                test = true,
+                tidy = true,
+              },
+              diagnostic = {
+                setFlags = "default",
+              },
+              formatting = {
+                gofumpt = true,
+                ["local"] = "",
+              },
+              imports = {
+                goimports = true,
+              },
+              matcher = "Fuzzy",
+              symbolMatcher = "fuzzy",
+              semanticTokens = true,
+            }
+          }
+        }
+      elseif server_name == "lua_ls" then
+        lsp_opt = {
+          settings = {
+            Lua = {
+              completion = {
+                callSnippet = "Replace"
+              },
+              diagnostics = {
+                globals = {"vim", "go"}
+              }
+            }
+          }
+        }
       end
       require('lspconfig')[server_name].setup(lsp_opt)
     end,

@@ -30,6 +30,38 @@ require("lazy").setup({
       })
     end
   },
+  --[[ Go Modern Tools ]] --
+  {
+    "ray-x/go.nvim",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "mfussenegger/nvim-dap"
+    },
+    config = function()
+      require("go").setup({
+        go = "go",
+        goimports = "goimports",
+        formatter = { "golines", "-m", "80" },
+        tag_options = "json=omitempty",
+        gotests = {
+          generate = true,
+          integrative = true
+        },
+        trouble = true,
+        test_flags = { "-v", "-race" },
+        test_timeout = 60,
+        verbose = true,
+        coverage = true,
+        dap_config = {
+          enabled = true,
+        }
+      })
+    end,
+    ft = { "go", "gosum" },
+    event = { "CmdlineEnter" },
+    build = ":GoUpdateBinaries"
+  },
+
   { 'VonHeikemen/lsp-zero.nvim',        branch = 'v4.x' },
   { 'williamboman/mason.nvim' },
   { 'williamboman/mason-lspconfig.nvim' },
@@ -99,6 +131,6 @@ require("lazy").setup({
 
   --[[ Appearance ]] --
   { "letorbi/vim-colors-modern-borland", config = function() end },
-  { "chriskempson/base16-vim",           config = function() end },
+  { "rwbaskette/base16-vim",           config = function() end },
   { "nvim-lualine/lualine.nvim",         opts = { dependencies = { "nvim-tree/nvim-web-devicons" }, theme = "auto" } }
 })
